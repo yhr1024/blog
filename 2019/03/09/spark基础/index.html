@@ -588,7 +588,7 @@
 <li><p>spark比mapreduce处理任务在内存中快100倍，在磁盘中快10倍</p>
 </li>
 <li><p>spark比mapreduce速度快的2个主要原因</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">（1） mapreduce任务每一次job的输出结果只能够保存在磁盘中，后续有其他的job需要依赖于前面job的输出结果，这个时候只能够进行大量的磁盘io操作，获取得到。spark任务每一次的job输出结果可以直接保存在内存中，后续有其他的job需要依赖于前面job的输出结果，这个时候就可以直接从内存中获取得到。大大减少磁盘io操作，最后整体上提升性能。</span><br><span class="line"></span><br><span class="line">  hivesql: select name,age,sex  <span class="keyword">from</span> (select * <span class="keyword">from</span><span class="built_in"> user </span>where age &gt;30) </span><br><span class="line">  </span><br><span class="line"> (2) mapreduce任务它是以进程的方式运行在yarn中，比如一个mapreduce任务中，有100个MapTask,这个时候就需要开启100个进程去运行着100个task；spark任务的它是以线程的方式运行在进程中，比如一个spark任务中还是有100个task，后期再运行的时候，可以极端一点，开启一个进程，在这一个进程中运行100个线程即可。 开启一个进程跟开启一个线程的代价肯定是不一样，开启一个进程需要的时间远远高于开启一个线程需要的时间。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">（1） mapreduce任务每一次job的输出结果只能够保存在磁盘中，后续有其他的job需要依赖于前面job的输出结果，这个时候只能够进行大量的磁盘io操作，获取得到。spark任务每一次的job输出结果可以直接保存在内存中，后续有其他的job需要依赖于前面job的输出结果，这个时候就可以直接从内存中获取得到。大大减少磁盘io操作，最后整体上提升性能。</span><br><span class="line"></span><br><span class="line">  hivesql: select name,age,sex  from (select * from user where age &gt;30) </span><br><span class="line">  </span><br><span class="line"> (2) mapreduce任务它是以进程的方式运行在yarn中，比如一个mapreduce任务中，有100个MapTask,这个时候就需要开启100个进程去运行着100个task；spark任务的它是以线程的方式运行在进程中，比如一个spark任务中还是有100个task，后期再运行的时候，可以极端一点，开启一个进程，在这一个进程中运行100个线程即可。 开启一个进程跟开启一个线程的代价肯定是不一样，开启一个进程需要的时间远远高于开启一个线程需要的时间。</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -655,10 +655,10 @@
 <li><p>进入到spark的安装目录有一个conf文件夹</p>
 <ul>
 <li><p>vim spark-env.sh ( mv spark-env.sh.template  spark-env.sh)</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#配置java环境变量</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">JAVA_HOME</span>=/export/servers/jdk</span><br><span class="line"><span class="comment">#指定master的地址</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">SPARK_MASTER_HOST</span>=node1</span><br><span class="line"><span class="comment">#指定master的端口</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">SPARK_MASTER_PORT</span>=7077</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#配置java环境变量</span><br><span class="line">export JAVA_HOME=/export/servers/jdk</span><br><span class="line">#指定master的地址</span><br><span class="line">export SPARK_MASTER_HOST=node1</span><br><span class="line">#指定master的端口</span><br><span class="line">export SPARK_MASTER_PORT=7077</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>vim slaves (mv slaves.template slaves)</p>
-<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">#指定哪些节点是worker</span></span><br><span class="line"><span class="attr">node2</span></span><br><span class="line"><span class="symbol">node3</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#指定哪些节点是worker</span><br><span class="line">node2</span><br><span class="line">node3</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -667,12 +667,12 @@
 <li><p>7、配置spark环境变量</p>
 <ul>
 <li><p>vim /etc/profile</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="builtin-name">export</span> <span class="attribute">SPARK_HOME</span>=/export/servers/spark</span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">PATH</span>=<span class="variable">$PATH</span>:$SPARK_HOME/bin:$SPARK_HOME/sbin</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">export SPARK_HOME=/export/servers/spark</span><br><span class="line">export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
 <li><p>8、分发spark目录和环境变量</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp -r spark node2:/export/servers</span><br><span class="line">scp -r spark node3:/export/servers</span><br><span class="line"></span><br><span class="line">scp /etc<span class="built_in">/profile </span>node2:/etc</span><br><span class="line">scp /etc<span class="built_in">/profile </span>node3:/etc</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">scp -r spark node2:/export/servers</span><br><span class="line">scp -r spark node3:/export/servers</span><br><span class="line"></span><br><span class="line">scp /etc/profile node2:/etc</span><br><span class="line">scp /etc/profile node3:/etc</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>9、让所有spark节点的环境变量生效</p>
 <ul>
@@ -725,12 +725,12 @@
 <li><p>2、修改配置</p>
 <ul>
 <li><p>vim spark-env.sh</p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#把之前手动指定哪一个节点是活着的master这个参数注释掉</span></span><br><span class="line"><span class="comment">#export SPARK_MASTER_HOST=node1</span></span><br><span class="line"><span class="comment">#引入zk，构建高可用的spark集群</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">SPARK_DAEMON_JAVA_OPTS</span>=<span class="string">"-Dspark.deploy.recoveryMode=ZOOKEEPER  -Dspark.deploy.zookeeper.url=node1:2181,n</span></span><br><span class="line"><span class="string">ode2:2181,node3:2181  -Dspark.deploy.zookeeper.dir=/spark"</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#把之前手动指定哪一个节点是活着的master这个参数注释掉</span><br><span class="line">#export SPARK_MASTER_HOST=node1</span><br><span class="line">#引入zk，构建高可用的spark集群</span><br><span class="line">export SPARK_DAEMON_JAVA_OPTS=&quot;-Dspark.deploy.recoveryMode=ZOOKEEPER  -Dspark.deploy.zookeeper.url=node1:2181,n</span><br><span class="line">ode2:2181,node3:2181  -Dspark.deploy.zookeeper.dir=/spark&quot;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
 <li><p>3、分发文件到其他机器</p>
-<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp spark-env.sh <span class="string">node2:</span><span class="regexp">/export/</span>servers<span class="regexp">/spark/</span>conf</span><br><span class="line">scp spark-env.sh <span class="string">node3:</span><span class="regexp">/export/</span>servers<span class="regexp">/spark/</span>conf</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">scp spark-env.sh node2:/export/servers/spark/conf</span><br><span class="line">scp spark-env.sh node3:/export/servers/spark/conf</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>4、先启动zk</p>
 </li>
@@ -751,7 +751,7 @@
 </ul>
 </li>
 <li><p>master恢复逻辑</p>
-<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">首先基于引入了zk集群，这个时候整个spark集群中有很多个<span class="literal">master</span>，其中一个<span class="literal">master</span>被选举成活着的<span class="literal">master</span>，它提供服务，后期给任务分配资源。还有其他多个<span class="literal">master</span>被选举成备用的<span class="literal">master</span>（standBy）,它不提供服务。</span><br><span class="line">当前活着的<span class="literal">master</span>挂掉了，首先zk会感知到，接下来在所有处于standBy中的<span class="literal">master</span>进行选举，最后生成一个活着的<span class="literal">master</span>，后期需要从zk集群中读取保存了spark集群的元数据节点spark。最后恢复到上一次<span class="literal">master</span>的状态，整个恢复需要一定的时间，一般就是<span class="number">1</span>-<span class="number">2</span>分钟。</span><br><span class="line"></span><br><span class="line">整个spark集群<span class="literal">master</span>正处于恢复阶段，对任务有没有影响？</span><br><span class="line"></span><br><span class="line">（<span class="number">1</span>）对于正在运行的任务有没有影响，没有影响。</span><br><span class="line">	由于任务正在运行，就说明它已经获取得到了资源，既然有资源了，就跟<span class="literal">master</span>没有关系，任务可以继续运行。这里就是没有任何影响</span><br><span class="line"></span><br><span class="line">   （<span class="number">2</span>）对于正准备提交的任务有没有影响，有影响。</span><br><span class="line">       由于没有这样一个活着的<span class="literal">master</span>去分配资源，也就说任务获取不到资源，既然没有资源，任务也就无法运行，必须等到活着的<span class="literal">master</span>出现之后，才可以申请到资源。</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">首先基于引入了zk集群，这个时候整个spark集群中有很多个master，其中一个master被选举成活着的master，它提供服务，后期给任务分配资源。还有其他多个master被选举成备用的master（standBy）,它不提供服务。</span><br><span class="line">当前活着的master挂掉了，首先zk会感知到，接下来在所有处于standBy中的master进行选举，最后生成一个活着的master，后期需要从zk集群中读取保存了spark集群的元数据节点spark。最后恢复到上一次master的状态，整个恢复需要一定的时间，一般就是1-2分钟。</span><br><span class="line"></span><br><span class="line">整个spark集群master正处于恢复阶段，对任务有没有影响？</span><br><span class="line"></span><br><span class="line">（1）对于正在运行的任务有没有影响，没有影响。</span><br><span class="line">	由于任务正在运行，就说明它已经获取得到了资源，既然有资源了，就跟master没有关系，任务可以继续运行。这里就是没有任何影响</span><br><span class="line"></span><br><span class="line">   （2）对于正准备提交的任务有没有影响，有影响。</span><br><span class="line">       由于没有这样一个活着的master去分配资源，也就说任务获取不到资源，既然没有资源，任务也就无法运行，必须等到活着的master出现之后，才可以申请到资源。</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
 </li>
@@ -809,7 +809,7 @@
 </ul>
 <h4 id="8、初识spark程序"><a href="#8、初识spark程序" class="headerlink" title="8、初识spark程序"></a>8、初识spark程序</h4><ul>
 <li><p>1、普通模式提交任务（就是我们已经知道了集群中活着的master地址）</p>
-<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bin/spark-submit \</span><br><span class="line">--class org<span class="selector-class">.apache</span><span class="selector-class">.spark</span><span class="selector-class">.examples</span><span class="selector-class">.SparkPi</span> \</span><br><span class="line">--master spark:<span class="comment">//node-1:7077 \</span></span><br><span class="line">--executor-memory <span class="number">1</span>G \</span><br><span class="line">--total-executor-cores <span class="number">2</span> \</span><br><span class="line">examples/jars/spark-examples_2.<span class="number">11</span>-<span class="number">2.1</span>.<span class="number">3</span><span class="selector-class">.jar</span> \</span><br><span class="line"><span class="number">100</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">bin/spark-submit \</span><br><span class="line">--class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master spark://node-1:7077 \</span><br><span class="line">--executor-memory 1G \</span><br><span class="line">--total-executor-cores 2 \</span><br><span class="line">examples/jars/spark-examples_2.11-2.1.3.jar \</span><br><span class="line">100</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>2、高可用模式下提交任务（就是集群中有很多个master，这个时候我也不知道哪一个master是活着的master）</p>
 <figure class="highlight shell"><figcaption><span>code here</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">bin/spark-submit \</span><br><span class="line">--class org.apache.spark.examples.SparkPi \</span><br><span class="line">--master spark://node-1:7077,node-2:7077,node-3:7077 \</span><br><span class="line">--executor-memory 1G \</span><br><span class="line">--total-executor-cores 2 \</span><br><span class="line">examples/jars/spark-examples_2.11-2.1.3.jar \</span><br><span class="line">100</span><br><span class="line"></span><br><span class="line">后期再实际环境中，有很多个master，任务的提交需要找到活着的master去申请资源，这个时候我们不知道哪一个master是活着的master，这里我们就可以把所有的master都罗列出来：</span><br><span class="line">--master spark://node1:7077,node2:7077,node3:7077</span><br><span class="line">后期程序在运行的时候，它会通过轮训的机制最后找到活着的master，然后向活着的master申请计算资源。</span><br></pre></td></tr></table></figure>
@@ -833,7 +833,7 @@
 <ul>
 <li>vim spark-env.sh</li>
 </ul>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#spark整合HDFS</span></span><br><span class="line"><span class="builtin-name">export</span> <span class="attribute">HADOOP_CONF_DIR</span>=/export/servers/hadoop/etc/hadoop</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#spark整合HDFS</span><br><span class="line">export HADOOP_CONF_DIR=/export/servers/hadoop/etc/hadoop</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>spark-shell –master local[2]</p>
 </li>
@@ -910,8 +910,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2019/03/09/Kafka部署/" rel="prev" title="Kafka">
-                Kafka <i class="fa fa-chevron-right"></i>
+              <a href="/blog/2019/03/09/Kafka简介/" rel="prev" title="Kafka简介">
+                Kafka简介 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -981,7 +981,7 @@
                 
                   <a href="/blog/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1004,7 +1004,17 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1029,7 +1039,19 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
