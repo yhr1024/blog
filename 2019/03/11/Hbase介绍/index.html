@@ -114,7 +114,7 @@
 <meta property="og:image" content="http://yoursite.com/blog/2019/03/11/Hbase介绍/HFILE结构.png">
 <meta property="og:image" content="http://yoursite.com/blog/2019/03/11/Hbase介绍/Hbase读数据流程.jpg">
 <meta property="og:image" content="http://yoursite.com/blog/2019/03/11/Hbase介绍/Hbase写数据流程.jpg">
-<meta property="og:updated_time" content="2019-03-21T20:42:38.497Z">
+<meta property="og:updated_time" content="2019-04-17T06:05:36.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Hbase介绍">
 <meta name="twitter:description" content="Hbase官网：https://hbase.apache.org/ 1.Hbase简介 hbase是基于Google BigTable模型开发的，典型的key/value系统。是建立在hdfs之上，提供高可靠性、高性能、列存储、可伸缩、实时读写nosql的数据库系统。它是Apache Hadoop生态系统中的重要一员，主要用于海量结构化和半结构化数据存储 它介于nosql和RDBMS之间，仅能通">
@@ -509,7 +509,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-22 04:42:38" itemprop="dateModified" datetime="2019-03-22T04:42:38+08:00">2019-03-22</time>
+                <time title="修改时间：2019-04-17 14:05:36" itemprop="dateModified" datetime="2019-04-17T14:05:36+08:00">2019-04-17</time>
               
             
           </span>
@@ -717,7 +717,7 @@
 <ul>
 <li>cell中的数据是没有类型的，全部是字节码形式存贮。</li>
 </ul>
-<h1 id="4-内部原理"><a href="#4-内部原理" class="headerlink" title="4.内部原理"></a>4.内部原理</h1><h2 id="4-1-物理存储"><a href="#4-1-物理存储" class="headerlink" title="4-1.物理存储"></a>4-1.物理存储</h2><h3 id="1-整体结构"><a href="#1-整体结构" class="headerlink" title="1.整体结构"></a>1.整体结构</h3><p><img src="/blog/2019/03/11/Hbase介绍/Hbase整体结构.png" alt="Hbase整体结构"></p>
+<h1 id="4-内部原理"><a href="#4-内部原理" class="headerlink" title="4.内部原理"></a>4.内部原理</h1><h2 id="4-1-物理存储"><a href="#4-1-物理存储" class="headerlink" title="4.1 物理存储"></a>4.1 物理存储</h2><h3 id="1-整体结构"><a href="#1-整体结构" class="headerlink" title="1.整体结构"></a>1.整体结构</h3><p><img src="/blog/2019/03/11/Hbase介绍/Hbase整体结构.png" alt="Hbase整体结构"></p>
 <ul>
 <li><p>Table中的所有行都按照row key的字典序排列。</p>
 </li>
@@ -778,7 +778,7 @@
 <li><p>HLog Sequece File的Value是HBase的KeyValue对象，即对应HFile中的KeyValue，可参见上文描述。</p>
 </li>
 </ul>
-<h2 id="4-2-读写过程"><a href="#4-2-读写过程" class="headerlink" title="4-2.读写过程"></a>4-2.读写过程</h2><p>Hbase 0.98版本之前采用的寻址机制：</p>
+<h2 id="4-2-读写过程"><a href="#4-2-读写过程" class="headerlink" title="4.2 读写过程"></a>4.2 读写过程</h2><p>Hbase 0.98版本之前采用的寻址机制：</p>
 <ul>
 <li>ZooKeeper–&gt; -ROOT-(只有一个Region)–&gt; .META.–&gt; 用户表</li>
 </ul>
@@ -822,7 +822,7 @@
 <li>RegionServer再把数据存入到MemStore</li>
 <li>RegionServer反馈给Client，数据写入成功</li>
 </ol>
-<h2 id="4-3-Region管理"><a href="#4-3-Region管理" class="headerlink" title="4-3.Region管理"></a>4-3.Region管理</h2><font size="4" color="darkblue"><strong>1.region分配：</strong></font>
+<h2 id="4-3-Region管理"><a href="#4-3-Region管理" class="headerlink" title="4.3 Region管理"></a>4.3 Region管理</h2><font size="4" color="darkblue"><strong>1.region分配：</strong></font>
 
 <p>​    任何时刻，一个region只能分配给一个region server。master记录了当前有哪些可用的region server。以及当前哪些region分配给了哪些region server，哪些region还没有分配。当需要分配的新的region，并且有一个region server上有可用空间时，master就给这个region server发送一个装载请求，把region分配给这个region server。region server得到请求后，就开始对此region提供服务。</p>
  <font size="4" color="darkblue"><strong>2.region server上线：</strong></font>
@@ -834,7 +834,7 @@
 <p>1.region server和zookeeper之间的网络断开了。</p>
 <p>2.region server挂了。</p>
 <p>无论哪种情况，region server都无法继续为它的region提供服务了，此时master会删除server目录下代表这台region server的znode数据，并将这台region server的region分配给其它还活着的同志。</p>
-<h2 id="4-4-Master工作机制"><a href="#4-4-Master工作机制" class="headerlink" title="4-4.Master工作机制"></a>4-4.Master工作机制</h2> <font size="4" color="darkblue"><strong>3.Master上线：</strong></font>
+<h2 id="4-4-Master工作机制"><a href="#4-4-Master工作机制" class="headerlink" title="4.4 Master工作机制"></a>4.4 Master工作机制</h2> <font size="4" color="darkblue"><strong>3.Master上线：</strong></font>
 
 <ol>
 <li>从zookeeper上获取唯一一个代表active master的锁，用来阻止其它master成为活着的master。</li>
@@ -850,29 +850,38 @@
 </li>
 </ol>
 <p>​    由于master只维护表和region的元数据，而不参与表数据IO的过程，master下线仅导致所有元数据的修改被冻结(无法创建删除表，无法修改表的schema，无法进行region的负载均衡，无法处理region 上下线，无法进行region的合并，唯一例外的是region的split可以正常进行，因为只有region server参与)，表的数据读写还可以正常进行。因此master下线短时间内对整个hbase集群没有影响。 </p>
-<h2 id="4-5-HBase容错机制"><a href="#4-5-HBase容错机制" class="headerlink" title="4-5.HBase容错机制"></a>4-5.HBase容错机制</h2> <font size="4" color="darkblue"><strong>Master容错：</strong></font>Zookeeper重新选择一个新的Master，无Master过程中，<font color="ef0000"><strong>数据读取仍照常进行，负载均衡无法进行。</strong></font>
+<h2 id="4-5-HBase容错机制"><a href="#4-5-HBase容错机制" class="headerlink" title="4.5 HBase容错机制"></a>4.5 HBase容错机制</h2> <font size="4" color="darkblue"><strong>Master容错：</strong></font>Zookeeper重新选择一个新的Master，无Master过程中，<font color="ef0000"><strong>数据读取仍照常进行，负载均衡无法进行。</strong></font>
 
-<p><font size="4" color="darkblue"><strong>RegionServer容错：</strong></font>定时向Zookeeper汇报心跳，如果一旦时间内未出现心跳，Master将该RegionServer上的Region重新分配到其他RegionServer上，失效服务器上“预写”日志由主服务器进行分割并派送给新的RegionServer</p>
-<p><font size="4" color="darkblue"><strong>Zookeeper容错：</strong></font>Zookeeper是一个可靠地服务，一般配置3或5个Zookeeper实例</p>
-<h1 id="5-高级应用"><a href="#5-高级应用" class="headerlink" title="5.高级应用"></a>5.高级应用</h1><h2 id="5-1-建表高级属性"><a href="#5-1-建表高级属性" class="headerlink" title="5-1.建表高级属性"></a>5-1.建表高级属性</h2><p>下面几个shell 命令在hbase操作中可以起到很到的作用，且主要体现在建表的过程中，看下面几个create 属性</p>
-<p>1、BLOOMFILTER  默认是Row</p>
-<p>布隆过滤可以每列族单独启用。</p>
-<p>使用 HColumnDescriptor.setBloomFilterType(NONE | ROW | ROWCOL) 对列族单独启用布隆。 </p>
-<p>²  Default = ROW 对行进行布隆过滤。</p>
-<p>²  对 ROW，行键的哈希在每次插入行时将被添加到布隆。</p>
-<p>²  对 ROWCOL，行键 + 列族 + 列族修饰的哈希将在每次插入行时添加到布隆</p>
-<p>   使用方法: create ‘table’,{BLOOMFILTER =&gt;’ROW’} </p>
-<p>   启用布隆过滤可以节省读磁盘过程，可以有助于降低读取延迟 </p>
-<p>2、VERSIONS 默认是1 这个参数的意思是数据保留1个版本，如果我们认为我们的数据没有这么大的必要保留这么多，随时都在更新，而老版本的数据对我们毫无价值，那将此参数设为1 能节约2/3的空间</p>
-<p>使用方法: create ‘table’,{VERSIONS=&gt;’2’}</p>
+<font size="4" color="darkblue"><strong>RegionServer容错：</strong></font>定时向Zookeeper汇报心跳，如果一旦时间内未出现心跳，Master将该RegionServer上的Region重新分配到其他RegionServer上，失效服务器上“预写”日志由主服务器进行分割并派送给新的RegionServer<br><br><font size="4" color="darkblue"><strong>Zookeeper容错：</strong></font>Zookeeper是一个可靠地服务，一般配置3或5个Zookeeper实例<br><br># 5.高级应用<br><br>## 5.1.建表高级属性<br><br>下面几个shell 命令在hbase操作中可以起到很到的作用，且主要体现在建表的过程中，看下面几个create 属性<br><br><font size="4" color="darkblue"><strong>1.BLOOMFILTER  默认是Row</strong></font>
+
+<p>​    布隆过滤可以每列族单独启用。使用 HColumnDescriptor.setBloomFilterType(NONE | ROW | ROWCOL) 对列族单独启用布隆。 </p>
+<ul>
+<li><p>Default = ROW 对行进行布隆过滤。</p>
+</li>
+<li><p>对 ROW，行键的哈希在每次插入行时将被添加到布隆。</p>
+</li>
+<li><p>对 ROWCOL，行键 + 列族 + 列族修饰的哈希将在每次插入行时添加到布隆</p>
+<p> 使用方法: </p>
+</li>
+</ul>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create 'table',&#123;BLOOMFILTER =&gt;'ROW'&#125;</span><br></pre></td></tr></table></figure>
+<p> <strong><font color="ef0000"> 启用布隆过滤可以节省读磁盘过程，可以有助于降低读取延迟 </font></strong></p>
+<hr>
+<font size="4" color="darkblue"><strong>2.VERSIONS 默认是1</strong></font>
+
+<p> 这个参数的意思是数据保留1个版本，如果我们认为我们的数据没有这么大的必要保留这么多，随时都在更新，而老版本的数据对我们毫无价值，那将此参数设为1 能节约2/3的空间</p>
+<p>使用方法: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create 'table',&#123;VERSIONS=&gt;'2'&#125;</span><br></pre></td></tr></table></figure>
 <p>附：MIN_VERSIONS =&gt; ‘0’是说在compact操作执行之后，至少要保留的版本</p>
-<p>3、COMPRESSION 默认值是NONE 即不使用压缩</p>
-<p>​     这个参数意思是该列族是否采用压缩，采用什么压缩算法</p>
-<p>​     使用方法: create ‘table’,{NAME=&gt;’info’,COMPRESSION=&gt;’SNAPPY’} </p>
+<hr>
+<font size="4" color="darkblue"><strong>3.COMPRESSION 默认值是NONE 即不使用压缩</strong></font>
+
+<p>​     这个参数意思是<strong><font color="ef0000">该列族是否采用压缩，采用什么压缩算法 </font></strong></p>
+<p>​     使用方法: </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create 'table',&#123;NAME=&gt;'info',COMPRESSION=&gt;'SNAPPY'&#125;</span><br></pre></td></tr></table></figure>
 <p>​     建议采用SNAPPY压缩算法 </p>
 <p>​    HBase中，在Snappy发布之前（Google 2011年对外发布Snappy），采用的LZO算法，目标是达到尽可能快的压缩和解压速度，同时减少对CPU的消耗；</p>
-<p>​    在Snappy发布之后，建议采用Snappy算法（参考《HBase: The Definitive Guide》），具体可以根据实际情况对LZO和Snappy做过更详细的对比测试后再做选择。</p>
-<p>​                    </p>
+<p>​    在Snappy发布之后，建议采用Snappy算法（参考《HBase: The Definitive Guide》），具体可以根据实际情况对LZO和Snappy做过更详细的对比测试后再做选择。      </p>
 <table>
 <thead>
 <tr>
@@ -904,20 +913,24 @@
 </tbody>
 </table>
 <p>如果建表之初没有压缩，后来想要加入压缩算法，可以通过alter修改schema</p>
-<p>4、alter </p>
-<p>​     使用方法：</p>
-<p>​     如 修改压缩算法      </p>
-<p>​      disable ‘table’</p>
-<p>​      alter ‘table’,{NAME=&gt;’info’,COMPRESSION=&gt;’snappy’} </p>
-<p>​      enable ‘table’</p>
-<p>​     但是需要执行major_compact ‘table’ 命令之后 才会做实际的操作。</p>
-<p>5、TTL </p>
+<hr>
+<font size="4" color="darkblue"><strong>4.alter </strong></font>
+
+<p>​     使用方法：如 修改压缩算法      </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">disable 'table'</span><br><span class="line">alter 'table',&#123;NAME=&gt;'info',COMPRESSION=&gt;'snappy'&#125; </span><br><span class="line">enable 'table'</span><br></pre></td></tr></table></figure>
+<p> 但是需要执行major_compact ‘table’ 命令之后 才会做实际的操作。</p>
+<font size="4" color="darkblue"><strong>5.TTL </strong></font>
+
 <p>默认是 2147483647 即:Integer.MAX_VALUE 值大概是68年</p>
 <p>这个参数是说明该列族数据的存活时间，单位是s </p>
 <p>这个参数可以根据具体的需求对数据设定存活时间，超过存过时间的数据将在表中不在显示，待下次major compact的时候再彻底删除数据.</p>
 <p>注意的是TTL设定之后 MIN_VERSIONS=&gt;’0’ 这样设置之后，TTL时间戳过期后，将全部彻底删除该family下所有的数据，如果MIN_VERSIONS 不等于0那将保留最新的MIN_VERSIONS个版本的数据，其它的全部删除，比如MIN_VERSIONS=&gt;’1’ 届时将保留一个最新版本的数据，其它版本的数据将不再保存。</p>
-<p>6、describe ‘table’ 这个命令查看了create table 的各项参数或者是默认值。</p>
-<p>7、disable_all  ‘toplist.*’  disable_all 支持正则表达式，并列出当前匹配的表的如下：</p>
+<font size="4" color="darkblue"><strong>6.describe ‘table’</strong></font>
+
+<p>这个命令查看了create table 的各项参数或者是默认值。</p>
+<font size="4" color="darkblue"><strong>7.disable_all  ‘toplist.*’  disable_all  </strong></font>
+
+<p>支持正则表达式，并列出当前匹配的表的如下：</p>
 <p>​      toplist_a_total_1001                                                                                                                                                 </p>
 <p>​      toplist_a_total_1002                                                                                                                                                </p>
 <p>​      toplist_a_total_1008                                                                                                                                                </p>
@@ -926,8 +939,63 @@
 <p>​      toplist_a_total_1035</p>
 <p>​     …</p>
 <p>​     Disable the above 25 tables (y/n)? 并给出确认提示.</p>
-<p>8、drop_all 这个命令和disable_all的使用方式是一样的</p>
-<h2 id="5-2-Hbase应用案例行键设计"><a href="#5-2-Hbase应用案例行键设计" class="headerlink" title="5-2.Hbase应用案例行键设计"></a>5-2.Hbase应用案例行键设计</h2><h2 id="5-3-Rowkey的设计原则"><a href="#5-3-Rowkey的设计原则" class="headerlink" title="5-3.Rowkey的设计原则"></a>5-3.Rowkey的设计原则</h2><h2 id="5-4-热点问题"><a href="#5-4-热点问题" class="headerlink" title="5-4.热点问题"></a>5-4.热点问题</h2>
+<font size="4" color="darkblue"><strong>8.drop_all  </strong></font>
+
+<p>这个命令和disable_all的使用方式是一样的</p>
+<h2 id="5-2-Hbase应用案例行键设计"><a href="#5-2-Hbase应用案例行键设计" class="headerlink" title="5.2.Hbase应用案例行键设计"></a>5.2.Hbase应用案例行键设计</h2><p>表结构设计</p>
+<p>1、列族数量的设定</p>
+<p>以用户信息为例，可以将必须的基本信息存放在一个列族，而一些附加的额外信息可以放在另一列族；</p>
+<p>2、行键的设计</p>
+<p>语音详单：</p>
+<p>13877889988-20150625</p>
+<p>13877889988-20150626</p>
+<p>—-将需要批量查询的数据尽可能连续存放</p>
+<p>CMS系统—-多条件查询</p>
+<p>尽可能将查询条件关键词拼装到rowkey中，查询频率最高的条件尽量往前靠</p>
+<p>20150230-zhangsan-category…  </p>
+<p>20150230-lisi-category…  </p>
+<p>Category+20150230         20150230-zhangsan-category</p>
+<p>(每一个条件的值长度不同，可以通过做定长映射来提高效率)</p>
+<p>Id    name        age   address </p>
+<p>1    zhangsan     30      bj</p>
+<p>2     lisi        40      sh</p>
+<p>3     wangwu      50      bj</p>
+<p>查询北京用户人群年龄</p>
+<h2 id="5-3-Rowkey的设计原则"><a href="#5-3-Rowkey的设计原则" class="headerlink" title="5.3.Rowkey的设计原则"></a>5.3.Rowkey的设计原则</h2><p>​    HBase是三维有序存储的，通过rowkey（行键），column key（column family和qualifier）和TimeStamp（时间戳）这个三个维度可以对HBase中的数据进行快速定位。</p>
+<p>HBase中rowkey可以唯一标识一行记录，在HBase查询的时候，有以下几种方式：</p>
+<ol>
+<li><p>通过get方式，指定rowkey获取唯一一条记录</p>
+</li>
+<li><p>通过scan方式，设置startRow和stopRow参数进行范围匹配</p>
+</li>
+<li><p>全表扫描，即直接扫描整张表中所有行记录</p>
+</li>
+</ol>
+<h3 id="5-3-1-rowkey长度原则"><a href="#5-3-1-rowkey长度原则" class="headerlink" title="5.3.1 rowkey长度原则"></a>5.3.1 rowkey长度原则</h3><p>​    rowkey是一个二进制码流，可以是任意字符串，最大长度64kb，实际应用中一般为10-100bytes，以byte[]形式保存，一般设计成定长。<font color="ef0000"><strong>建议越短越好，不要超过16个字节</strong></font>。</p>
+<p>原因如下：</p>
+<ol>
+<li>数据的持久化文件HFile中是按照KeyValue存储的，如果rowkey过长，比如超过100字节，1000w行数据，光rowkey就要占用100*1000w=10亿个字节，将近1G数据，这样会极大影响HFile的存储效率.</li>
+<li>MemStore将缓存部分数据到内存，如果rowkey字段过长，内存的有效利用率就会降低，系统不能缓存更多的数据，这样会降低检索效率。</li>
+</ol>
+<h3 id="5-3-2-rowkey散列原则"><a href="#5-3-2-rowkey散列原则" class="headerlink" title="5.3.2  rowkey散列原则"></a>5.3.2  rowkey散列原则</h3><p>​    如果rowkey按照时间戳的方式递增，不要将时间放在二进制码的前面，<font color="ef0000"><strong>建议将rowkey的高位作为散列字段，由程序随机生成，低位放时间字段，这样将提高数据均衡分布在每个RegionServer，以实现负载均衡的几率</strong></font>。如果没有散列字段，首字段直接是时间信息，所有的数据都会集中在一个RegionServer上，这样在数据检索的时候负载会集中在个别的RegionServer上，造成热点问题，会降低查询效率。</p>
+<h3 id="5-3-3-rowkey唯一原则"><a href="#5-3-3-rowkey唯一原则" class="headerlink" title="5.3.3 rowkey唯一原则"></a>5.3.3 rowkey唯一原则</h3><p>​    <font color="ef0000"><strong>必须在设计上保证其唯一性</strong></font>，rowkey是按照字典顺序排序存储的，因此，设计rowkey的时候，要充分利用这个排序的特点，将经常读取的数据存储到一块，将最近可能会被访问的数据放到一块。</p>
+<h2 id="5-4-热点问题"><a href="#5-4-热点问题" class="headerlink" title="5.4 热点问题"></a>5.4 热点问题</h2><p>​    HBase中的行是按照rowkey的字典顺序排序的，这种设计优化了scan操作，可以将相关的行以及会被一起读取的行存取在临近位置，便于scan。然而糟糕的rowkey设计是热点的源头。 </p>
+<p>​    <font color="ef0000"><strong>热点发生在大量的client直接访问集群的一个或极少数个节点（访问可能是读，写或者其他操作）</strong></font>。大量访问会使热点region所在的单个机器超出自身承受能力，引起性能下降甚至region不可用，这也会影响同一个RegionServer上的其他region，由于主机无法服务其他region的请求。 </p>
+<p>​    设计良好的数据访问模式以使集群被充分，均衡的利用。为了避免写热点，设计rowkey使得不同行在同一个region，但是在更多数据情况下，数据应该被写入集群的多个region，而不是一个。下面是一些常见的避免热点的方法以及它们的优缺点:</p>
+<h3 id="5-4-1-加盐"><a href="#5-4-1-加盐" class="headerlink" title="5.4.1 加盐"></a>5.4.1 加盐</h3><p>​    这里所说的加盐不是密码学中的加盐，而是<font color="ef0000"><strong>在rowkey的前面增加随机数</strong></font>，具体就是给rowkey分配一个随机前缀以使得它和之前的rowkey的开头不同。分配的前缀种类数量应该和你想使用数据分散到不同的region的数量一致。加盐之后的rowkey就会根据随机生成的前缀分散到各个region上，以避免热点。</p>
+<h3 id="5-4-2-哈希"><a href="#5-4-2-哈希" class="headerlink" title="5.4.2 哈希"></a>5.4.2 哈希</h3><p>​    <font color="ef0000"><strong>哈希会使同一行永远用一个前缀加盐</strong></font>。哈希也可以使负载分散到整个集群，但是读却是可以预测的。使用确定的哈希可以让客户端重构完整的rowkey，可以使用get操作准确获取某一个行数据。</p>
+<h3 id="5-4-3-反转"><a href="#5-4-3-反转" class="headerlink" title="5.4.3 反转"></a>5.4.3 反转</h3><p>​    <font color="ef0000"><strong>反转固定长度或者数字格式的rowkey</strong></font>。这样可以使得rowkey中经常改变的部分（最没有意义的部分）放在前面。这样可以有效的随机rowkey，但是牺牲了rowkey的有序性。</p>
+<p>​    反转rowkey的例子以手机号为rowkey，可以将手机号反转后的字符串作为rowkey，这样的就避免了以手机号那样比较固定开头导致热点问题</p>
+<p>135xxxx1023 → 3201xxxx531</p>
+<p>136xxxx9301 → 1039xxxx631</p>
+<h3 id="5-4-4-时间戳反转"><a href="#5-4-4-时间戳反转" class="headerlink" title="5.4.4 时间戳反转"></a>5.4.4 时间戳反转</h3><p>​    一个常见的数据处理问题是快速获取数据的最近版本，<font color="ef0000"><strong>使用反转的时间戳作为rowkey的一部分</strong></font>对这个问题十分有用，可以用 Long.Max_Value -timestamp 追加到key的末尾，例如 [key][reverse_timestamp] , [key] 的最新值可以通过scan [key]获得[key]的第一条记录，因为HBase中rowkey是有序的，第一条记录是最后录入的数据。</p>
+<h3 id="5-4-5-其他"><a href="#5-4-5-其他" class="headerlink" title="5.4.5 其他"></a>5.4.5 其他</h3><ul>
+<li><p>尽量减少行键和列族的大小在HBase中，value永远和它的key一起传输的。当具体的值在系统间传输时，它的rowkey，列名，时间戳也会一起传输。如果你的rowkey和列名很大，这个时候它们将会占用大量的存储空间。</p>
+</li>
+<li><p>列族尽可能越短越好，最好是一个字符。冗长的属性名虽然可读性好，但是更短的属性名存储在HBase中会更好。</p>
+</li>
+</ul>
+
       
     </div>
 
@@ -965,8 +1033,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2019/03/11/二叉树/" rel="next" title="二叉树">
-                <i class="fa fa-chevron-left"></i> 二叉树
+              <a href="/blog/2019/03/10/Kafka集群搭建/" rel="next" title="Kafka集群搭建">
+                <i class="fa fa-chevron-left"></i> Kafka集群搭建
               </a>
             
           </div>
@@ -975,8 +1043,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2019/03/12/线性表/" rel="prev" title="线性表">
-                线性表 <i class="fa fa-chevron-right"></i>
+              <a href="/blog/2019/03/11/时间复杂度&空间复杂度/" rel="prev" title="时间复杂度&空间复杂度">
+                时间复杂度&空间复杂度 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -1046,7 +1114,7 @@
                 
                   <a href="/blog/archives/">
                 
-                    <span class="site-state-item-count">15</span>
+                    <span class="site-state-item-count">17</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -1085,25 +1153,7 @@
                     
                       
                     
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">11</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -1154,7 +1204,13 @@
                     
                       
                     
-                    <span class="site-state-item-count">17</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1205,7 +1261,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Hbase简介"><span class="nav-text">1.Hbase简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-集群结构"><span class="nav-text">2.集群结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-表的结构"><span class="nav-text">3.表的结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-内部原理"><span class="nav-text">4.内部原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-物理存储"><span class="nav-text">4-1.物理存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-整体结构"><span class="nav-text">1.整体结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-STORE-FILE-amp-HFILE结构"><span class="nav-text">2.STORE FILE &amp; HFILE结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Memstore-MemoryStore-与storefile"><span class="nav-text">3.Memstore(MemoryStore)与storefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-HLog-WAL-log"><span class="nav-text">4.HLog(WAL log)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-读写过程"><span class="nav-text">4-2.读写过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-Region管理"><span class="nav-text">4-3.Region管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-Master工作机制"><span class="nav-text">4-4.Master工作机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-HBase容错机制"><span class="nav-text">4-5.HBase容错机制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-高级应用"><span class="nav-text">5.高级应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#5-1-建表高级属性"><span class="nav-text">5-1.建表高级属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Hbase应用案例行键设计"><span class="nav-text">5-2.Hbase应用案例行键设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-Rowkey的设计原则"><span class="nav-text">5-3.Rowkey的设计原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-热点问题"><span class="nav-text">5-4.热点问题</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-Hbase简介"><span class="nav-text">1.Hbase简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-集群结构"><span class="nav-text">2.集群结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-表的结构"><span class="nav-text">3.表的结构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-内部原理"><span class="nav-text">4.内部原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-物理存储"><span class="nav-text">4.1 物理存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-整体结构"><span class="nav-text">1.整体结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-STORE-FILE-amp-HFILE结构"><span class="nav-text">2.STORE FILE &amp; HFILE结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-Memstore-MemoryStore-与storefile"><span class="nav-text">3.Memstore(MemoryStore)与storefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-HLog-WAL-log"><span class="nav-text">4.HLog(WAL log)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-读写过程"><span class="nav-text">4.2 读写过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-3-Region管理"><span class="nav-text">4.3 Region管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-4-Master工作机制"><span class="nav-text">4.4 Master工作机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-5-HBase容错机制"><span class="nav-text">4.5 HBase容错机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-2-Hbase应用案例行键设计"><span class="nav-text">5.2.Hbase应用案例行键设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-3-Rowkey的设计原则"><span class="nav-text">5.3.Rowkey的设计原则</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-1-rowkey长度原则"><span class="nav-text">5.3.1 rowkey长度原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-2-rowkey散列原则"><span class="nav-text">5.3.2  rowkey散列原则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3-3-rowkey唯一原则"><span class="nav-text">5.3.3 rowkey唯一原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-4-热点问题"><span class="nav-text">5.4 热点问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-1-加盐"><span class="nav-text">5.4.1 加盐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-2-哈希"><span class="nav-text">5.4.2 哈希</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-3-反转"><span class="nav-text">5.4.3 反转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-4-时间戳反转"><span class="nav-text">5.4.4 时间戳反转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-4-5-其他"><span class="nav-text">5.4.5 其他</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
